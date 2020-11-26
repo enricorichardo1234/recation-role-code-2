@@ -8,13 +8,11 @@ $onlyIf[$checkContains[$getServerVar[rg];"$message": "$getObjectProperty[$messag
 Please use \`role-edit\` to edit the role-menu
 Or \`role-delete\` to delete it!]
 $createObject[{$getServerVar[rg]}]
-$argsCheck[>1;❌ Please enter the role-menu name that u want to create!]
-$onlyPerms[manageroles;managechannels;❌ You need manage roles permission to create a role-menu!]
-	`
+$argsCheck[>1;❌ Please enter the role-menu name that you want to create!]
+$onlyPerms[manageroles;managechannels;❌ You need manage roles permission to create a role-menu!]`
 })
 
 const role = `$replaceText[$replaceText[$checkCondition[$mentionedRoles[1]==];true;$splitText[4]];false;$mentionedRoles[1]]`
-
 bot.command({
 name: "role-edit",
  code: `
@@ -28,10 +26,9 @@ $onlyIf[$checkContains[$getServerVar[rg];"$splitText[2]": "$getObjectProperty[$s
 $createObject[{$getServerVar[rg]}]
 $onlyIf[$checkContains[$toLowercase[$splitText[1]];add;edit;remove]==true;❌ Available options is \`add\`, \`edit\`, and \`remove\`.]
 $textSplit[$message; | ]
-$suppressErrors[❌ Usage: \`<prefix>role-edit add | <roleMenu> | <emoji> | <role>\`]
-$onlyPerms[manageroles;managechannels;❌ You need manage roles permission to edit role-menu!]
-`
-)}
+$suppressErrors[❌ Usage: \`$getServerVar[prefix]role-edit add | <roleMenu> | <emoji> | <role>\`]
+$onlyPerms[manageroles;managechannels;❌ You need manage roles permission to edit role-menu!]`
+})
 
 const role1 = `$replaceText[$replaceText[$checkCondition[$mentionedRoles[1]==];true;$splitText[4]];false;$mentionedRoles[1]]`
 
@@ -48,9 +45,8 @@ $onlyIf[$checkContains[$getServerVar[rg];"$splitText[2]": "$getObjectProperty[$s
 $createObject[{$getServerVar[rg]}]
 $onlyIf[$toLowercase[$splitText[1]]==edit;]
 $textSplit[$message; | ]
-$suppressErrors[❌ Usage: \`<prefix>role-edit edit | <roleMenu> | <emoji> | <role> | <newEmoji> | <newRole>\`]
-$onlyPerms[manageroles;managechannels;]
- `
+$suppressErrors[❌ Usage: \`$getServerVar[prefix]role-edit edit | <roleMenu> | <emoji> | <role> | <newEmoji> | <newRole>\`]
+$onlyPerms[manageroles;managechannels;]`
 })
 
 bot.command({
@@ -66,9 +62,8 @@ $onlyIf[$checkContains[$getServerVar[rg];"$splitText[2]": "$getObjectProperty[$s
 $createObject[{$getServerVar[rg]}]
 $onlyIf[$toLowercase[$splitText[1]]==remove;]
 $textSplit[$message; | ]
-$suppressErrors[❌ Usage: \`<prefix>role-edit dele | <roleMenu> | <emoji> | <role>\`]
-$onlyPerms[manageroles;managechannels;]
-	`
+$suppressErrors[❌ Usage: \`$getServerVar[prefix]role-edit dele | <roleMenu> | <emoji> | <role>\`]
+$onlyPerms[manageroles;managechannels;]`
 })
 
 bot.command({
@@ -80,10 +75,9 @@ $removeTextSplitElement[$replaceText[$findTextSplitIndex[];0;1]]
 $textSplit[$replaceText[$getServerVar[rg];$getObjectProperty[$message];];,]
 $onlyIf[$checkContains[$getServerVar[rg];"$message": "$getObjectProperty[$message]"]==true;❌ Role-menu with name \`$message\` doesn't exist!]
 $createObject[{$getServerVar[rg]}]
-$argsCheck[>1;❌ You must specify the role-menu that u want to delete]
-$suppressErrors[❌ Usage: \`<prefix>role-delete <roleMenu>\`]
-$onlyPerms[manageroles;managechannels;❌ You need manage roles permission to delete a role-menu!]
-	`
+$argsCheck[>1;❌ You must specify the role-menu that you want to delete]
+$suppressErrors[❌ Usage: \`$getServerVar[prefix]role-delete <roleMenu>\`]
+$onlyPerms[manageroles;managechannels;❌ You need manage roles permission to delete a role-menu!]`
 })
 
 bot.command({
@@ -94,42 +88,38 @@ $setMessageVar[rr;$replaceText[$replaceText[$getObjectProperty[$message];';"];�
 $reactionCollector[$getChannelVar[rrole];everyone;1;$joinSplitText[,];map-reactions]
 $textSplit[$textSplitMap[map-reactions];\n]
 $setChannelVar[rrole;$sendMessage[**$message**\n$textSplitMap[map-roles]\n\`React with the emoji at the left of the role name, to get the roles!\`;yes]]
-
 $onlyIf[$joinSplitText[∆]!=;❌ Role-menu is empty!]
-
 $onlyIf[$checkContains[$getServerVar[rg];"$message": "$joinSplitText[∆]"]==true;❌ Role-menu with name \`$message\` doesn't exist, please create one first!]
-
 $textSplit[$getObjectProperty[$message];∆]
-
 $createObject[{$getServerVar[rg]}]
 $suppressErrors[❌ There was an error while setting up the reaction-role-menu.]
 $onlyPerms[manageroles;managechannels;❌ You need manage roles permission to setup reaction-role-menu!]
-$onlyBotPerms[manageroles;❌ I need manage roles permission to do reaction roles!]
-	`
+$onlyBotPerms[manageroles;❌ I need manage roles permission to do reaction roles!]`
 })
 
 bot.awaitedCommand({
-name:"map-reaction"
+name:"map-reactions",
 code: `$splitText[2]$textSplit[$message[1];']`
 })
 
 bot.awaitedCommand({
-name:"map-roles"
+name:"map-roles",
 code: `$splitText[2] - $roleName[$splitText[4]]$textSplit[$message[1];']`
 })
 
-bot.reactionAddCommand({
+bot.onReactionAdd()
 
- channel: "$channelID",
- code: `
+bot.reactionAddCommand({
+channel: "$channelID",
+code: `
 $giveRoles[$authorID;$getObjectProperty[$replaceText[$replaceText[$emojiToString;<;#LEFT_CLICK#];>;#RIGHT_CLICK#]]]
 $createObject[{$getMessageVar[rr]}]
 $onlyIf[$getMessageVar[rr]!=;]
 $onlyIf[$getChannelVar[rrole]!=;]
-$onlyIf[$isBot==false;]
-	`
+$onlyIf[$isBot==false;]`
 })
 
+bot.onReactionRemove()
 
 bot.reactionRemoveCommand({
  channel: "$channelID",
@@ -138,13 +128,5 @@ $takeRoles[$authorID;$getObjectProperty[$replaceText[$replaceText[$emojiToString
 $createObject[{$getMessageVar[rr]}]
 $onlyIf[$getMessageVar[rr]!=;]
 $onlyIf[$getChannelVar[rrole]!=;]
-$onlyIf[$isBot==false;]
-	`
+$onlyIf[$isBot==false;]`
 })
-
-bot.variables({
-  rr: '',
-  rrole: '',
-  rg: ''
-})
-
