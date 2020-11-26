@@ -52,8 +52,6 @@ $onlyPerms[manageroles;managechannels;]
  `
 })
 
-const role = `$replaceText[$replaceText[$checkCondition[$mentionedRoles[1]==];true;$splitText[4]];false;$mentionedRoles[1]]`
-
 bot.commamd({
  name: "role-edit",
  code: `
