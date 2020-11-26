@@ -11,9 +11,10 @@ $createObject[{$getServerVar[rg]}]
 $argsCheck[>1;❌ Please enter the role-menu name that u want to create!]
 $onlyPerms[manageroles;managechannels;❌ You need manage roles permission to create a role-menu!]
 	`
-)}
+})
 
 const role = `$replaceText[$replaceText[$checkCondition[$mentionedRoles[1]==];true;$splitText[4]];false;$mentionedRoles[1]]`
+
 bot.command({
 name: "role-edit",
  code: `
@@ -52,7 +53,7 @@ $onlyPerms[manageroles;managechannels;]
  `
 })
 
-bot.commamd({
+bot.command({
  name: "role-edit",
  code: `
 ✅ Role-menu has been updated!
@@ -70,7 +71,7 @@ $onlyPerms[manageroles;managechannels;]
 	`
 })
 
-bot.commamd({
+bot.command({
  name: "role-delete",
  code: `
 ✅ Role-menu with name \`$message\` has been deleted!
@@ -85,7 +86,7 @@ $onlyPerms[manageroles;managechannels;❌ You need manage roles permission to de
 	`
 })
 
-bot.commamd({
+bot.command({
  name: "role-setup",
  code: `
 $sendMessage[✅ Reaction-role-menu has been setup!;no]
