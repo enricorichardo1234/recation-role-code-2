@@ -130,3 +130,9 @@ $onlyIf[$getMessageVar[rr]!=;]
 $onlyIf[$getChannelVar[rrole]!=;]
 $onlyIf[$isBot==false;]`
 })
+
+bot.variables({
+  rr: '',
+  rg: '',
+  rrole: ''
+})
