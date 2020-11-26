@@ -142,3 +142,10 @@ $onlyIf[$getChannelVar[rrole]!=;]
 $onlyIf[$isBot==false;]
 	`
 })
+
+bot.variables({
+  rr: '',
+  rrole: '',
+  rg: ''
+})
+
